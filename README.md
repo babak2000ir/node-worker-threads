@@ -2,6 +2,20 @@
 * node
 * react 
 * node:worker_threads
+* koa
+
+###### v 1.0.1
+
+React app is added to the project. you can see and compare results:
+
+![Test result screenshot - client](https://raw.githubusercontent.com/babak2000ir/node-worker-threads/main/Screenshot 2023-08-13 170140.jpg)
+
+Durations of the shortCall and longCall requests after heavyCall do include heavyCall's long running time.
+
+But the durations of the shortCall and longCall requests after heavyCallWT is not affected by heavyCallWT's long running time.
+
+**There is an interesting and classic isse solved in this update: "React Asyncronous state update". This issue causes our state break when we push an array and update it in the .then(...). But using function for of setState, you can take your update out of the closure and keep the state always updated in your then(...)**
+
 ###### v 1.0.0
 
 This is a POC based on my node-react minimalist framework. I'm creating a test environment to observe node:worker_threads handles heavy request using a pool of worker_threads. 
