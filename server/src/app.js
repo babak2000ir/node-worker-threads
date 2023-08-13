@@ -36,9 +36,22 @@ router.post('/heavyCall', async (ctx) => {
 });
 
 router.post('/heavyCallWT', async (ctx) => {
-    const worker = new Worker(path.join(__dirname, '/worker.js'), { workerData: {} });
-    worker.on('message', (msg) => {
-        ctx.body = msg;
+    ctx.body = await new Promise((resolve, reject) => {
+        const worker = new Worker(`${__dirname}/worker.js`);
+        worker.on('message', result => {
+            resolve(`success: ${result}`);
+        });
+        worker.on('error', error => {
+            console.error('Worker error:', error);
+            reject((isMainThread ? 'main' : 'worker') + 'error: ' + error);
+        });
+        worker.on('exit', code => {
+            if (code !== 0) {
+                console.error('Worker stopped with exit code:', code);
+                reject((isMainThread ? 'main' : 'worker') + 'exit code: ' + code);
+            }
+        });
+        worker.postMessage('start computation');
     });
 });
 
@@ -49,6 +62,7 @@ router.post('/heavyCallAsync', async (ctx) => {
 app.use(router.routes());
 
 app.use(serve(path.join(__dirname, '/client')));
+
 
 app.listen(3000);
 console.log("Server is listening on port 3000");
