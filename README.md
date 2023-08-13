@@ -8,7 +8,7 @@
 
 React app is added to the project. you can see and compare results:
 
-![Test result screenshot - client](https://raw.githubusercontent.com/babak2000ir/node-worker-threads/main/Screenshot 2023-08-13 170140.jpg)
+![Test result screenshot - client](https://github.com/babak2000ir/node-worker-threads/blob/main/Screenshot%202023-08-13%20170140.jpg?raw=true)
 
 Durations of the shortCall and longCall requests after heavyCall do include heavyCall's long running time.
 
